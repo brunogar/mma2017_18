@@ -1,0 +1,7 @@
+organization=ayague-github
+projectKey=mma.legacy:interval
+serverUrl=https://sonarcloud.io
+serverVersion=7.3.0.13459
+dashboardUrl=https://sonarcloud.io/dashboard?id=mma.legacy%3Ainterval
+ceTaskId=AWQjOchnHlEhtnAoG6_s
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWQjOchnHlEhtnAoG6_s
