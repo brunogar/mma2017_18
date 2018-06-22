@@ -6,7 +6,6 @@ package mma.legacy.interval;
  */
 public class App 
 {
-    //prueba
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
