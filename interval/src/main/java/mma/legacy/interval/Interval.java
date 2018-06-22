@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * Controla operaciones sobre intervalos que pueden ser abiertos o cerrados
  */
 public class Interval {
-    private final static Logger logger = Logger.getAnonymousLogger();
+    private static final Logger logger = Logger.getAnonymousLogger();
     private double minimum;  // número entero que indica el limite inferior del intervalo
     private double maximum;  // número entero que indica el limite superior del intervalo
     private Opening opening; // Enumerado que indica si el intervalo es abierto o cerrado
@@ -72,72 +72,89 @@ public class Interval {
         boolean maximumIncluded = this.includes(interval.maximum);
         switch (opening) {
             case BOTH_OPENED:
-                switch (interval.opening) {
-                    case BOTH_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case LEFT_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded);
-                    case RIGHT_OPENED:
-                        return (minimumIncluded)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case UNOPENED:
-                        return (minimumIncluded) && (maximumIncluded);
-                    default:
-                        assert false;
-                        return false;
-                }
+                return checkIntervalIsIncludedWhenBothOpened(interval, minimumIncluded, maximumIncluded);
             case LEFT_OPENED:
-                switch (interval.opening) {
-                    case BOTH_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case LEFT_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
-                    case RIGHT_OPENED:
-                        return (minimumIncluded)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case UNOPENED:
-                        return (minimumIncluded)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    default:
-                        assert false;
-                        return false;
-                }
+                return checkIntervalIsIncludedWhenLeftOpen(interval, minimumIncluded, maximumIncluded);
             case RIGHT_OPENED:
-                switch (interval.opening) {
-                    case BOTH_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case LEFT_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded);
-                    case RIGHT_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case UNOPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded);
-                    default:
-                        assert false;
-                        return false;
-                }
+                return checkIntervalIsIncludedWhenRightIsOpen(interval, minimumIncluded, maximumIncluded);
             case UNOPENED:
-                switch (interval.opening) {
-                    case BOTH_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
-                    case LEFT_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum)
-                                && (maximumIncluded || maximum == interval.maximum);
-                    case RIGHT_OPENED:
-                        return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
-                    case UNOPENED:
-                        return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
-                    default:
-                        assert false;
-                        return false;
-                }
+                return checkIfIntervalISIncludedWhenUnopened(interval, minimumIncluded, maximumIncluded);
+            default:
+                assert false;
+                return false;
+        }
+    }
+
+    private boolean checkIfIntervalISIncludedWhenUnopened(Interval interval, boolean minimumIncluded, boolean maximumIncluded) {
+        switch (interval.opening) {
+            case BOTH_OPENED:
+                return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
+            case LEFT_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case RIGHT_OPENED:
+                return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
+            case UNOPENED:
+                return (minimumIncluded || minimum == interval.minimum) && (maximumIncluded || maximum == interval.maximum);
+            default:
+                assert false;
+                return false;
+        }
+    }
+
+    private boolean checkIntervalIsIncludedWhenRightIsOpen(Interval interval, boolean minimumIncluded, boolean maximumIncluded) {
+        switch (interval.opening) {
+            case BOTH_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case LEFT_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded);
+            case RIGHT_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case UNOPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded);
+            default:
+                assert false;
+                return false;
+        }
+    }
+
+    private boolean checkIntervalIsIncludedWhenLeftOpen(Interval interval, boolean minimumIncluded, boolean maximumIncluded) {
+        switch (interval.opening) {
+            case BOTH_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case LEFT_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case RIGHT_OPENED:
+                return (minimumIncluded)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case UNOPENED:
+                return (minimumIncluded)
+                        && (maximumIncluded || maximum == interval.maximum);
+            default:
+                assert false;
+                return false;
+        }
+    }
+
+    private boolean checkIntervalIsIncludedWhenBothOpened(Interval interval, boolean minimumIncluded, boolean maximumIncluded) {
+        switch (interval.opening) {
+            case BOTH_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case LEFT_OPENED:
+                return (minimumIncluded || minimum == interval.minimum)
+                        && (maximumIncluded);
+            case RIGHT_OPENED:
+                return (minimumIncluded)
+                        && (maximumIncluded || maximum == interval.maximum);
+            case UNOPENED:
+                return (minimumIncluded) && (maximumIncluded);
             default:
                 assert false;
                 return false;
@@ -186,14 +203,35 @@ public class Interval {
 
     @Override
     public String toString() {
-        // TODO
-        return null;
+        final StringBuilder sb = new StringBuilder("Interval{");
+        sb.append("minimum=").append(minimum);
+        sb.append(", maximum=").append(maximum);
+        sb.append(", opening=").append(opening);
+        sb.append('}');
+        return sb.toString();
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Interval interval = (Interval) o;
+
+        if (Double.compare(interval.minimum, minimum) != 0) return false;
+        if (Double.compare(interval.maximum, maximum) != 0) return false;
+        return opening == interval.opening;
     }
 
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(minimum);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(maximum);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (opening != null ? opening.hashCode() : 0);
+        return result;
+    }
 }
