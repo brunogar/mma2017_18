@@ -1,13 +1,17 @@
 package mma.legacy.interval;
 
+import java.util.logging.Logger;
+
 /**
  * Hello world!
  *
  */
 public class App 
 {
+    private static final Logger logger = Logger.getAnonymousLogger();
+
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        logger.info( "Hello World!" );
     }
 }
