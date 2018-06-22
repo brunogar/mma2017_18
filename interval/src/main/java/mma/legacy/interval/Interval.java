@@ -1,5 +1,7 @@
 package mma.legacy.interval;
 
+import java.util.logging.Logger;
+
 /**
  * Clase para el ejemplo de trabajo con Legacy
  *
@@ -7,7 +9,7 @@ package mma.legacy.interval;
  * Controla operaciones sobre intervalos que pueden ser abiertos o cerrados
  */
 public class Interval {
-
+    private final static Logger logger = Logger.getAnonymousLogger();
     private double minimum;  // número entero que indica el limite inferior del intervalo
     private double maximum;  // número entero que indica el limite superior del intervalo
     private Opening opening; // Enumerado que indica si el intervalo es abierto o cerrado
@@ -25,7 +27,7 @@ public class Interval {
         this.minimum = minimum;
         this.maximum = maximum;
         this.opening = opening;
-        System.out.println("Objeto creado");
+        logger.info("Objeto creado");
     }
 
     /**
@@ -44,7 +46,7 @@ public class Interval {
      * @return booleano que afirma si el valor esta incluido dentro del rango
      */
     public boolean includes(double value) {
-        System.out.print("Entro en el método");
+        logger.info("Entro en el método");
         switch (opening) {
             case BOTH_OPENED:
                 return minimum < value && value < maximum;
@@ -55,7 +57,6 @@ public class Interval {
             case UNOPENED:
                 return minimum <= value && value <= maximum;
             default:
-                assert false;
                 return false;
         }
     }
