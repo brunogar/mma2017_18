@@ -169,20 +169,15 @@ public class Interval {
      */
 
     public boolean intersectsWith(Interval interval) {
-        if (minimum == interval.maximum) {
-            switch (opening) {
-                case BOTH_OPENED:
-                case LEFT_OPENED:
-                    return false;
-                case RIGHT_OPENED:
-                case UNOPENED:
-                    return interval.opening == Opening.LEFT_OPENED ||
-                            interval.opening == Opening.UNOPENED;
-                default:
-                    assert false;
-                    return false;
-            }
-        }
+        Boolean x = checkIfIntervalsIntersectInMaximum(interval);
+        if (x != null) return x;
+        Boolean x1 = checkIfIntevalsIntersecInMinimum(interval);
+        if (x1 != null) return x1;
+        return this.includes(interval.minimum)
+                || this.includes(interval.maximum);
+    }
+
+    private Boolean checkIfIntevalsIntersecInMinimum(Interval interval) {
         if (maximum == interval.minimum) {
             switch (opening) {
                 case BOTH_OPENED:
@@ -197,8 +192,25 @@ public class Interval {
                     return false;
             }
         }
-        return this.includes(interval.minimum)
-                || this.includes(interval.maximum);
+        return null;
+    }
+
+    private Boolean checkIfIntervalsIntersectInMaximum(Interval interval) {
+        if (minimum == interval.maximum) {
+            switch (opening) {
+                case BOTH_OPENED:
+                case LEFT_OPENED:
+                    return false;
+                case RIGHT_OPENED:
+                case UNOPENED:
+                    return interval.opening == Opening.LEFT_OPENED ||
+                            interval.opening == Opening.UNOPENED;
+                default:
+                    assert false;
+                    return false;
+            }
+        }
+        return null;
     }
 
     @Override
